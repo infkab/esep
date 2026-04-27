@@ -1,6 +1,6 @@
 import requests
 import base64
-TOKEN = "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"   
+TOKEN = "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"   
 OWNER = "infkab"
 REPO = "esep"
 LOCAL_FILE_PATH = "1.pdf"   
