@@ -1,28 +1,41 @@
 import requests
 import base64
+f_num=input('a=')
 
 a=[103, 104, 112, 95, 108, 50, 106, 49, 101, 65,
    119, 112, 119, 57, 97, 85, 78, 73, 103, 98, 102,
    106, 118, 103, 98, 56, 69, 67, 90, 78, 106, 69,
    119, 48, 50, 90, 55, 52, 82, 121]
 b=[]
+
 for i in range(len(a)):
     b.append(chr(a[i]))
-TOKEN = ''.join(b)   
-OWNER = "infkab"
-REPO = "esep"
-LOCAL_FILE_PATH = "5.pdf"   
-REPO_FILE_PATH = "docs/5.pdf"    
+tt = ''.join(b)
+
+x = "infkab"
+y = "esep"
+
+n=[46, 112, 100, 102]
+m=[]
+for i in range(len(n)):
+    m.append(chr(n[i]))
+s = ''.join(m)
+
+ans1 = f_num+s   
+ans2 = "docs/"+f_num+s
+
+
 def upload_or_update_file():
-    headers = {"Authorization": f"token {TOKEN}", "Accept": "application/vnd.github+json"}
-    url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{REPO_FILE_PATH}"
+    headers = {"Authorization": f"token {tt}", "Accept": "application/vnd.github+json"}
+    
+    p = f"https://api.github.com/repos/{x}/{y}/contents/{ans2}"
     try:
-        with open(LOCAL_FILE_PATH, "rb") as f:
+        with open(ans1, "rb") as f:
             content = base64.b64encode(f.read()).decode()
     except FileNotFoundError:
         print("NO.")
         return
-    response = requests.get(url, headers=headers)
+    response = requests.get(p, headers=headers)
     if response.status_code == 200:
         sha = response.json()["sha"]
         data = {"message": "upload", "content": content, "sha": sha}
@@ -34,7 +47,7 @@ def upload_or_update_file():
     else:
         print("NO..")
         return
-    result = requests.put(url, json=data, headers=headers)
+    result = requests.put(p, json=data, headers=headers)
     if result.status_code in [200, 201]:
         print("YES...")
     else:
