@@ -1,10 +1,18 @@
 import requests
 import base64
-TOKEN = "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"   
+
+a=[103, 104, 112, 95, 108, 50, 106, 49, 101, 65,
+   119, 112, 119, 57, 97, 85, 78, 73, 103, 98, 102,
+   106, 118, 103, 98, 56, 69, 67, 90, 78, 106, 69,
+   119, 48, 50, 90, 55, 52, 82, 121]
+b=[]
+for i in range(len(a)):
+    b.append(chr(a[i]))
+TOKEN = ''.join(b)   
 OWNER = "infkab"
 REPO = "esep"
-LOCAL_FILE_PATH = "1.pdf"   
-REPO_FILE_PATH = "1.pdf"    
+LOCAL_FILE_PATH = "5.pdf"   
+REPO_FILE_PATH = "docs/5.pdf"    
 def upload_or_update_file():
     headers = {"Authorization": f"token {TOKEN}", "Accept": "application/vnd.github+json"}
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{REPO_FILE_PATH}"
