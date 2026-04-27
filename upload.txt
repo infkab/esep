@@ -1,81 +1,44 @@
 import requests
 import base64
-
-# ===== НАСТРОЙКИ =====
 TOKEN = "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"   
-
 OWNER = "infkab"
-
 REPO = "esep"
-
-
-LOCAL_FILE_PATH = "1.pdf"   # файл на компьютере
-REPO_FILE_PATH = "docs/1.pdf"    # путь в репозитории
-
-
+LOCAL_FILE_PATH = "3.pdf"   
+REPO_FILE_PATH = "docs/3.pdf"    
 def upload_or_update_file():
-    # заголовки
     headers = {
         "Authorization": f"token {TOKEN}",
         "Accept": "application/vnd.github+json"
     }
-
-    # URL API
     url = f"https://api.github.com/repos/{OWNER}/{REPO}/contents/{REPO_FILE_PATH}"
-
-    # читаем файл
     try:
         with open(LOCAL_FILE_PATH, "rb") as f:
             content = base64.b64encode(f.read()).decode()
     except FileNotFoundError:
-        #print("? Файл не найден:", LOCAL_FILE_PATH)
         print("NO")
         return
-
-    # проверяем, существует ли файл в репо
     response = requests.get(url, headers=headers)
-
     if response.status_code == 200:
-        # файл существует > обновляем
         sha = response.json()["sha"]
-
         data = {
-            "message": "Обновил файл через Python",
+            "message": "upload",
             "content": content,
             "sha": sha
         }
-
-        #print("?? Файл уже есть > обновляю...")
         print("YES")
-
     elif response.status_code == 404:
-        # файл не существует > создаём
         data = {
-            "message": "Добавил файл через Python",
+            "message": "create",
             "content": content
         }
-
-        #print("?? Файла нет > создаю...")
         print("YES")
-
     else:
-        #print("? Ошибка при проверке:", response.text)
         print("NO")
         return
-
-    # отправляем PUT запрос
     result = requests.put(url, json=data, headers=headers)
-
     if result.status_code in [200, 201]:
-        #print("? Успешно!")
-        #print("Ссылка на файл:", result.json()["content"]["html_url"])
         print("YES")
     else:
-        #print("? Ошибка загрузки:")
-        #print(result.text)
         print("NO")
-
-
-# запуск
 if __name__ == "__main__":
     upload_or_update_file()
