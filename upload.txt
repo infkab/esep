@@ -3,8 +3,8 @@ import base64
 TOKEN = "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"   
 OWNER = "infkab"
 REPO = "esep"
-LOCAL_FILE_PATH = "3.pdf"   
-REPO_FILE_PATH = "docs/3.pdf"    
+LOCAL_FILE_PATH = "1.pdf"   
+REPO_FILE_PATH = "docs/1.pdf"    
 def upload_or_update_file():
     headers = {
         "Authorization": f"token {TOKEN}",
